@@ -210,8 +210,9 @@ if __name__ == '__main__':
     graph = Graph(directed=False)
 
     graph.add_edge('A', 'B')
-    graph.add_edge('A', 'C')
     graph.add_edge('B', 'C')
+    graph.add_edge('C', 'F')
+    print(graph.graph)
 
     graph.print_graph()
     print(graph.get_order())

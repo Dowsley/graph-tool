@@ -1,0 +1,13 @@
+{
+	"state": {
+		"weighted": false,
+		"directed": false,
+		"graph": null
+	},
+	"changes": {
+		"new_edges": [
+			[["A", "B"], null],
+			[["B", "C"], null]
+		]
+	}
+}

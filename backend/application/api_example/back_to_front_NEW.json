@@ -1,0 +1,9 @@
+{
+	"graph": {
+		"A": [["B", null]],
+		"B": [["A", null], ["C", null]],
+		"C": [["B", null]]
+	},
+	"weighted": true,
+	"directed": false
+}
