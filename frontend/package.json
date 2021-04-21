@@ -16,7 +16,8 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "build:css": "postcss ./src/tailwind.css -o ./src/index.css"
   },
   "eslintConfig": {
     "extends": [
@@ -35,5 +36,11 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "@tailwindcss/postcss7-compat": "^2.1.0",
+    "autoprefixer": "^9",
+    "postcss": "^8.2.10",
+    "tailwindcss": "npm:@tailwindcss/postcss7-compat"
   }
 }
