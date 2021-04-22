@@ -207,11 +207,11 @@ class Graph:
 if __name__ == '__main__':
     print("Running test script")
 
-    graph = Graph(directed=False)
+    graph = Graph(directed=False, weighted=False)
 
-    graph.add_edge('A', 'B')
-    graph.add_edge('B', 'C')
-    graph.add_edge('C', 'F')
+    graph.add_edge('A', 'B', 2)
+    graph.add_edge('B', 'C', 3)
+    graph.add_edge('C', 'F', 4)
     print(graph.graph)
 
     graph.print_graph()
@@ -219,7 +219,7 @@ if __name__ == '__main__':
 
     print(graph.get_size())
 
-    print(graph.adjacency('E', 'A'))
+    print(graph.adjacency('B', 'A'))
 
     print(graph.get_degree('C'))
 
