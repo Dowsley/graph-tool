@@ -207,11 +207,9 @@ class Graph:
 if __name__ == '__main__':
     print("Running test script")
 
-    graph = Graph(directed=False, weighted=False)
+    graph = Graph(directed=True, weighted=False)
 
-    graph.add_edge('A', 'B', 2)
-    graph.add_edge('B', 'C', 3)
-    graph.add_edge('C', 'F', 4)
+    graph.add_edge('A', 'B')
     print(graph.graph)
 
     graph.print_graph()

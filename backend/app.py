@@ -1,51 +1,48 @@
 from flask import Flask, request, jsonify
-from application.function import new_graph, change_graph
-from application.model import Graph
-import json
+from flask_cors import CORS, cross_origin
+from model import Graph
 
 app = Flask(__name__)
+cors = CORS(app, resources={r'/': {"origins": "http://localhost:3000"}})
 
 @app.route('/', methods=['POST', ])
+@cross_origin()
 def handle_graph():
-    request_json = request.get_json()
-
-    data = json.load(request_json)
+    data = request.get_json()
 
     graph = Graph(
-                weighted=data['state']['weighted'],
-                directed=data['state']['directed']
-            )
+        weighted=data['state']['weighted'],
+        directed=data['state']['directed'],
+    )
+    graph.graph = data['state']['graph'] if data['state']['graph'] else {}
 
-    graph_dict = {}
-
-    if data['state']['graph'] == None:
-        # Since the condition is true, we can create a new Graph.
-        return jsonify(new_graph(graph))
-
-    elif 'new_edges' in data['changes'].keys():
-        # Since the condition is true, we can execute the request's changes.
-        return jsonify(change_graph(graph))
-
-    elif data['changes']['adjacency']:
-        # Since the condition is true, we can create a dict that's confirm if the two vertices are adjacents.
-        graph.graph = data['state']['graph']
+    if data['changes']['new_edges']:
+        if data['state']['weighted']:
+            for i, j in data['changes']['new_edges']:
+                graph.add_edge(i[0], i[1], j)
+        else:
+            for i, j in data['changes']['new_edges']:
+                graph.add_edge(i[0], i[1])
+        
+    res = vars(graph)
+    
+    if data['changes']['adjacency']:
         temp = data['changes']['adjacency']
-        graph_dict['adjacency'] = graph.adjacency(temp[0], temp[1])
-        return jsonify(graph_dict)
-
-    elif data['changes']['get_degree']:
-        # Since the condition is true, we can create a dict with vertex's degree.
-        graph.graph = data['state']['graph']
+        res['adjacency'] = graph.adjacency(temp[0], temp[1])
+    
+    if data['changes']['get_degree']:
         temp = data['changes']['get_degree']
-        graph_dict['degree'] = graph.get_degree(temp)
-        return jsonify(graph_dict)
+        res['degree'] = graph.get_degree(temp)
 
-    elif data['changes']['get_adjacents']:
-        # Since the condition is true, we can create a dict with all adjacents vertices.
-        graph.graph = data['state']['graph']
+    if data['changes']['get_adjacents']:
         temp = data['changes']['get_adjacents']
-        graph_dict['adjacents'] = graph.get_adjacents(temp)
-        return jsonify(graph_dict)
+        res['adjacents'] = graph.get_adjacents(temp)
+
+    res["size"] = graph.get_size()
+    res["order"] = graph.get_order()
+    
+    return jsonify(res)
+    
 
 if __name__ == '__main__':
     app.run(debug=True)
