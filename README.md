@@ -49,6 +49,7 @@ Número de vértices do Grafo
 # Tecnologias
 
 ## Backend
+- Fizemos toda a lógica em Python, seguindo o padrão estilístico do PEP8.
 - Criamos uma classe `Graph` com os seguintes **atributos**:
     - `directed` - Booleano que recebe `True` se o Grafo for Direcionado, e `False` se o Grafo for Não-Direcionado
     - `weighted` - Booleano que recebe `True` se o Grafo for Ponderado, e `False` se o Grafo for Não-Ponderado
@@ -63,18 +64,18 @@ Número de vértices do Grafo
     - `get_adjacents` - Retorna os vértices adjacentes de um determinado vértice.
 
 ## Frontend
-
-Escolhendo se é Ponderado
-- [ ] True
-- [x] False
-
-Escolhendo se é Direcionado
-- [ ] True
-- [x] False
+Feito em Node e React.js, seguindo padrão estilístico similar ao do AirBnB. A visualização de grafos é possível com uso da biblioteca react-graph-vis. Os detalhes visuais são feitos com ajuda da maravilhosa biblioteca Tailwind. É possível realizar as seguintes ações:
+- Configurar seu novo grafo selecionando os checkboxes e apertando oo +. (Recomenda-se que faça primeiro, mas se feito com um grafo já existente, ele irá ser apagado.
+- Adicionar arestas ao seu novo gráfico, escrevendo qual o Source e qual o Destiny e aperta no lápis. O peso é apenas possível de ser colocado se você tem um gráfico ponderado/valorado.
+- Checar adjacência. Processo similar ao de cima.
+- Ver ordem e tamanho do Grafo em tempo real (é mostrado em cima do programa)
+- Clicar em um determinado Node (vértice) para ver detalhes dele como: 
+    - O Gráu do Vértice (ingoing e outgoing caso seja direcionado)
+    - Os vértices adjacentes a ele (ingoing e outgoing caso seja direcionado)
 
 # Passo a Passo
 
-# Banco de Horas
+## Banco de Horas
 
 |Atividade| Horas Usadas|
 |:--|--:|
