@@ -1,34 +1,41 @@
 # Documentação
 
 # Sumário
-1. Introdução a Grafos
-    -   Grafo Direcionado
-    -   Grafo Ponderado
-    -   Tamanho
-    -   Ordem
-    -   Adjacência
-    -   Grau
-2. Tecnologias
-3. Passo a Passo
-4. Banco de Horas
+1. [Introdução a Grafos](#1)
+    -   [Grafo Direcionado](#1.1)
+    -   [Grafo Ponderado](#1.2)
+    -   [Tamanho](#1.3)
+    -   [Ordem](#1.4)
+    -   [Adjacência](#1.5)
+    -   [Grau](#1.6)
+2. [Backend & Frontend](#2)
+    - [Backend](#2.1)
+    - [Frontend](#2.2)
+4. [Banco de Horas](#3)
 
+<a id="1"> </a>
 # Introdução a Grafos
 ***
 Grafo é um par de conjuntos: `vértices`, `arestas`, onde cada `aresta` é um par ordenado de `vértices`.
 ***
 
+<a id="1.1"> </a>
 ## Grafo Direcionado
 Um grafo é direcionado quando suas `arestas` podem ser chamadas de `vetores` ou `setas`, pois possuem direção, um `vértice` de origem e um `vértice` de entrada.
 
+<a id="1.2"> </a>
 ## Grafo Ponderado
 Um grafo é ponderado quando suas arestas possuem pesos.
 
+<a id="1.3"> </a>
 ## Tamanho
 Número de arestas do Grafo.
 
+<a id="1.4"> </a>
 ## Ordem
 Número de vértices do Grafo
 
+<a id="1.5"> </a>
 ## Adjacência
 
 >### Adjacência(Não Direcionado)
@@ -37,17 +44,20 @@ Número de vértices do Grafo
 >### Adjacência(Direcionado)
 > Dado um vértice `v`, A relação de Adjacência em Grafos Direcionados mostra a lista de vértices adjacentes de entrada e a lista de vértices adjacentes de saída.
 
+<a id="1.6"> </a>
 ## Grau
 >### Grau do Vértice(Não Direcionado)
 > O grau de um vértice é o número de arestas incidentes para com o vértice
 
 >### Grau do Vértice(Direcionado)
 >A seqüência de graus de um gráfico direcionado é a lista de seus pares `indegree` e `outdegree`.
-> - Indegree of vertex V is the number of edges which are coming into the vertex V.
-> - Outdegree of vertex V is the number of edges which are going out from the vertex V.
+> - Indegree é o número de arestas que estão entrando no vértice.
+> - Outdegree é o número de arestas que estão saindo do vértice.
 
-# Tecnologias
+<a id="2"> </a>
+# Backend & Frontend
 
+<a id="2.1"> </a>
 ## Backend
 - Fizemos toda a lógica em Python, seguindo o padrão estilístico do PEP8.
 - Criamos uma classe `Graph` com os seguintes **atributos**:
@@ -63,6 +73,7 @@ Número de vértices do Grafo
     - `get_degree` - Calcula o grau de um dado vértice.
     - `get_adjacents` - Retorna os vértices adjacentes de um determinado vértice.
 
+<a id="2.2"> </a>
 ## Frontend
 Feito em Node e React.js, seguindo padrão estilístico similar ao do AirBnB. A visualização de grafos é possível com uso da biblioteca react-graph-vis. Os detalhes visuais são feitos com ajuda da maravilhosa biblioteca Tailwind. É possível realizar as seguintes ações:
 - Configurar seu novo grafo selecionando os checkboxes e apertando oo +. (Recomenda-se que faça primeiro, mas se feito com um grafo já existente, ele irá ser apagado.
@@ -73,8 +84,7 @@ Feito em Node e React.js, seguindo padrão estilístico similar ao do AirBnB. A 
     - O Gráu do Vértice (ingoing e outgoing caso seja direcionado)
     - Os vértices adjacentes a ele (ingoing e outgoing caso seja direcionado)
 
-# Passo a Passo
-
+<a id="3"> </a>
 ## Banco de Horas
 
 |Atividade| Horas Usadas|
@@ -91,6 +101,7 @@ Feito em Node e React.js, seguindo padrão estilístico similar ao do AirBnB. A 
 |Criação do método que verifica o grau de um dado vértice| 00:27|
 |Criação do método que retonra a lista de vertices adjacentes| 00:15|
 |Backend utilizando Flask| 03:00|
-|Frontend utilizando ReactJS| 20:30 - agora|
+|Frontend utilizando ReactJS| 07:30|
+|Documentação| 01:30|
 
-Total: 8 horas e 27 minutos
+#### Total: 17 horas e 27 minutos
