@@ -310,8 +310,8 @@ const App = () => {
                     let degreeString = ''
                     let adjacentString = ''
                     if (directedInput) {
-                      degreeString += `O grau do vértice ${vertex} é: ${degree[0]}\n`
-                      degreeString += `O grau do vértice ${vertex} é: ${degree[1]}\n`
+                      degreeString += `O grau ingoing do vértice ${vertex} é: ${degree[0]}\n`
+                      degreeString += `O grau outgoing do vértice ${vertex} é: ${degree[1]}\n`
           
                       adjacentString += `Os adjacentes ingoing deste vértice são: ${adjacents[0].toString()}\n`
                       adjacentString += `Os adjacentes outgoing deste vértice são: ${adjacents[1].toString()}\n`
