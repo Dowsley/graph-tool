@@ -1,0 +1,335 @@
+import React, { useState } from 'react'
+import Graph from 'react-graph-vis'
+import axios from 'axios'
+
+const App = () => {
+  const [srcInput, setSrcInput] = useState('')
+  const [destInput, setDestInput] = useState('')
+  const [weightInput, setWeightInput] = useState('')
+
+  const [srcAdjInput, setSrcAdjInput] = useState('')
+  const [destAdjInput, setDestAdjInput] = useState('')
+  
+  const [weightedInput, setWeightedInput] = useState(false)
+  const [directedInput, setDirectedInput] = useState(false)
+
+  const [message, setMessage] = useState('')
+
+  const [graphStructure,] = useState({
+    weighted: false,
+    directed: false,
+    graph: null,
+    order: null,
+    size: null,
+  })
+
+  const [state, setState] = useState({
+    graph: {
+      nodes: [],
+      edges: [],
+    },
+  })
+
+  const renderGraphState = () => {
+    const new_nodes = [...new Set(
+      Object.keys(graphStructure.graph)
+        .concat(
+          Object
+            .values(graphStructure.graph)
+            .map((edges) => edges.map((e) => e[0]))
+            .flat()
+        )
+    )].map(n => ({ id: n, label: n }))
+
+    const new_edges = []
+    Object.entries(graphStructure.graph)
+      .forEach(([src, dests]) => {
+        dests.forEach((dest) => {
+          new_edges.push({ from: src, to: dest[0], weight: dest[1] })
+        })
+      })
+
+    setState(({ graph: { nodes, edges }, ...rest }) => {
+      return {
+        graph: {
+          nodes: [...new_nodes],
+          edges: [...new_edges],
+        },
+        ...rest
+      }
+    })
+  }
+
+  const requestGraphChanges = (options) => {
+    axios.post('http://127.0.0.1:5000', {
+      state: graphStructure,
+      changes: options,
+    }).then((res) => {
+      graphStructure.weighted = res.data.weighted
+      graphStructure.directed = res.data.directed
+      graphStructure.graph = res.data.graph
+      graphStructure.order = res.data.order
+      graphStructure.size = res.data.size
+
+      renderGraphState()
+    })
+  }
+
+  return (
+    <>
+      <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons" />
+      <div className="flex">
+        <div className="w-64 h-screen bg-white">
+          <div className="flex items-center justify-center mt-10 font-bold text-4xl">
+            GRAPH TOOL
+          </div>
+
+          <nav className="mt-10">
+            <div className="flex mx-2 rounded-lg justify-between bg-gray-200 mt-5 py-2 px-6 space-x-3 text-gray-600 border-white hover:bg-gray-200 hover:text-gray-700 hover:border-gray-700">
+              <div className="block">
+                <div className="font-medium">
+                  Ordem
+                </div>
+                <div className="flex justify-center font-bold text-3xl">
+                  {graphStructure.order}
+                </div>
+              </div>
+
+              <div className="block">
+                <div className="font-medium">
+                  Tamanho
+                </div>
+                <div className="flex justify-center font-bold text-3xl">
+                  {graphStructure.size}
+                </div>
+              </div>
+            </div>
+            
+            <div className="mx-2 rounded-lg flex items-center bg-gray-200 mt-5 py-2 px-6 space-x-3 text-gray-600 border-r-4 border-white hover:bg-gray-200 hover:text-gray-700 hover:border-gray-700">
+              <div className="flex items-center space-x-1" >
+                <button
+                  className="flex bg-primary opacity-60 hover:opacity-100 rounded-full"
+                  onClick={() => {
+                    graphStructure.weighted = weightedInput
+                    graphStructure.directed = directedInput
+                    graphStructure.graph = null
+                    graphStructure.order = null
+                    graphStructure.size = null
+
+                    setState(({ graph: { nodes, edges }, ...rest }) => {
+                      return {
+                        graph: {
+                          nodes: [],
+                          edges: [],
+                        },
+                        ...rest
+                      }
+                    })
+                  }}
+                >
+                  <span className="material-icons" style={{ fontSize: '20px' }}>
+                    add
+                  </span>
+                </button>
+              </div>
+
+              <div className="space-y-1">
+                <div>
+                  <span className="font-medium">
+                    Criar novo grafo
+                  </span>
+                </div>
+
+                <div className="space-x-1">
+                  <input
+                    name="Direcionado"
+                    type="checkbox"
+                    checked={directedInput}
+                    onChange={() => setDirectedInput(!directedInput)}
+                  />
+                  <span>
+                    Direcionado
+                  </span>
+                </div>
+
+                <div className="space-x-1">
+                  <input
+                    name="Ponderado"
+                    type="checkbox"
+                    checked={weightedInput}
+                    onChange={() => setWeightedInput(!weightedInput)}
+                  />
+                  <span>
+                    Ponderado
+                  </span>
+                </div>
+              </div>
+            </div>
+
+            <div className="mx-2 rounded-lg flex items-center bg-gray-200 mt-5 py-2 px-6 space-x-3 text-gray-600 border-r-4 border-white hover:bg-gray-200 hover:text-gray-700 hover:border-gray-700">
+              <div className="flex items-center space-x-1" >
+                <button
+                  className="flex bg-primary opacity-60 hover:opacity-100 rounded-full"
+                  onClick={() => {
+                    requestGraphChanges({
+                      new_edges: [
+                        [[srcInput, destInput], weightedInput ? parseInt(weightInput) : null],
+                      ],
+                      adjacency: [],
+                      get_degree: false,
+                      get_adjacents: false,
+                    })
+                  }}
+                >
+                  <span className="material-icons" style={{ fontSize: '20px' }}>
+                    edit
+                  </span>
+                </button>
+              </div>
+
+              <div className="space-y-1">
+                <span className="font-medium">
+                  Adicionar Aresta
+                </span>
+                <input 
+                  placeholder="Source"
+                  value={srcInput}
+                  onChange={(e) => setSrcInput(e.target.value)}
+                />
+                <input
+                  placeholder="Destiny"
+                  value={destInput}
+                  onChange={(e) => setDestInput(e.target.value)}
+                />
+                <input
+                  disabled={!weightedInput}
+                  placeholder="Weight"
+                  value={weightInput}
+                  onChange={(e) => setWeightInput(e.target.value)}
+                />
+              </div>
+            </div>
+
+            <div className="mx-2 rounded-lg flex items-center bg-gray-200 mt-5 py-2 px-6 space-x-3 text-gray-600 border-r-4 border-white hover:bg-gray-200 hover:text-gray-700 hover:border-gray-700">
+              <div className="flex items-center space-x-1" >
+                <button
+                  className="flex bg-primary opacity-60 hover:opacity-100 rounded-full"
+                  onClick={() => {
+                    axios.post('http://127.0.0.1:5000', {
+                      state: graphStructure,
+                      changes: {
+                        new_edges: null,
+                        adjacency: [srcAdjInput, destAdjInput],
+                        get_degree: null,
+                        get_adjacents: null,
+                      },
+                    }).then((res) => {
+                      const adjacency = res.data.adjacency
+
+                      const string = adjacency
+                        ? 'Sim :D'
+                        : 'Não! >:('
+
+                      setMessage(string)
+                    })
+                  }}
+                >
+                  <span className="material-icons" style={{ fontSize: '20px' }}>
+                    close_fullscreen
+                  </span>
+                </button>
+              </div>
+
+              <div className="space-y-1">
+                <span className="font-medium">
+                  Checar Adjacência
+                </span>
+                <input 
+                  placeholder="Source"
+                  value={srcAdjInput}
+                  onChange={(e) => setSrcAdjInput(e.target.value)}
+                />
+                <input
+                  placeholder="Destiny"
+                  value={destAdjInput}
+                  onChange={(e) => setDestAdjInput(e.target.value)}
+                />
+                <div className="bg-green-300 px-2 py-2 rounded-lg">
+                  {message}
+                </div>
+              </div>
+            </div>
+
+          </nav>
+
+          <div className="absolute bottom-0 my-10">
+            <a className="flex items-center py-2 px-8 text-gray-500 hover:text-gray-600" href="https://github.com/Dowsley/graph-tool">
+              <svg className="h-5 w-5" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path fillRule="evenodd" clipRule="evenodd" d="M18 10C18 14.4183 14.4183 18 10 18C5.58172 18 2 14.4183 2 10C2 5.58172 5.58172 2 10 2C14.4183 2 18 5.58172 18 10ZM10 7C9.63113 7 9.3076 7.19922 9.13318 7.50073C8.85664 7.97879 8.24491 8.14215 7.76685 7.86561C7.28879 7.58906 7.12543 6.97733 7.40197 6.49927C7.91918 5.60518 8.88833 5 10 5C11.6569 5 13 6.34315 13 8C13 9.30622 12.1652 10.4175 11 10.8293V11C11 11.5523 10.5523 12 10 12C9.44773 12 9.00001 11.5523 9.00001 11V10C9.00001 9.44772 9.44773 9 10 9C10.5523 9 11 8.55228 11 8C11 7.44772 10.5523 7 10 7ZM10 15C10.5523 15 11 14.5523 11 14C11 13.4477 10.5523 13 10 13C9.44772 13 9 13.4477 9 14C9 14.5523 9.44772 15 10 15Z" fill="currentColor" />
+              </svg>
+
+              <span className="mx-4 font-medium">Support</span>
+            </a>
+          </div>
+        </div>
+
+          <div style={{
+            width: 1000,
+            height: 1000
+          }}>
+            <Graph
+              graph={state.graph}
+              options={{
+                layout: {
+                  hierarchical: false
+                },
+                edges: {
+                  color: "#000000"
+                }
+              }}
+              events={{
+                select: ({ nodes, edges }) => {
+                  if (!nodes.length) {
+                    return
+                  }
+          
+                  const vertex = nodes[0]
+          
+                  axios.post('http://127.0.0.1:5000', {
+                    state: graphStructure,
+                    changes: {
+                      new_edges: null,
+                      adjacency: null,
+                      get_degree: vertex,
+                      get_adjacents: vertex,
+                    },
+                  }).then((res) => {
+                    const degree = res.data.degree
+                    const adjacents = res.data.adjacents
+          
+                    let degreeString = ''
+                    let adjacentString = ''
+                    if (directedInput) {
+                      degreeString += `O grau do vértice ${vertex} é: ${degree[0]}\n`
+                      degreeString += `O grau do vértice ${vertex} é: ${degree[1]}\n`
+          
+                      adjacentString += `Os adjacentes ingoing deste vértice são: ${adjacents[0].toString()}\n`
+                      adjacentString += `Os adjacentes outgoing deste vértice são: ${adjacents[1].toString()}\n`
+                    } else {
+                      degreeString += `O grau do vértice ${vertex} é: ${degree[0]}\n`
+                      adjacentString += `Os adjacentes deste vértice são: ${adjacents[0].toString()}\n`
+                    }
+          
+                    alert(degreeString + adjacentString)
+                  })
+                }
+              }}
+            />
+          </div>
+        </div>
+    </>
+  );
+
+}
+
+export default App
