@@ -1,4 +1,5 @@
 from itertools import chain
+from functools import reduce
 
 class Graph:
     """Represents a Graph using a dictionary. All of its methods
@@ -203,22 +204,69 @@ class Graph:
             None
         )
 
+    def dijkstra_shortest_path(self, origin):
+        # STEP 0: Initialization
+
+        # Doesnt work for now
+        if self.directed:
+            return None
+        
+        visited = []
+        unvisited = list(self.graph.keys())
+
+        """ Each key will be a vertex. The value is a list of 
+        (shortest distance to origin, previous_vertex)
+        """
+        table = {}
+        for key in unvisited:
+            if key == origin:
+                table[key] = [0, None]
+            else:
+                table[key] = [float('inf'), None] # first term is infinity
+
+
+        # BEGIN PROCEDURE
+        while (unvisited):
+            # STEP 1: Visit the unvisited vertex with the 
+            # smallest known distance from the start vertex.
+            curr_v = None
+            for v in unvisited:
+                weight = table[v][0]
+                if curr_v == None:
+                    curr_v = (v, weight)
+                elif weight < curr_v[1]:
+                    curr_v = (v, weight)
+            curr_v = curr_v[0]
+
+            # STEP 2: For the current vertex, calculate the distance of each
+            # neighbor from the start vertex. For each neighbor, if the calculated distance
+            # is less than its known distance, update the neighbor's shortest distance 
+            # and previous vertice. After that, set current vertex as visited. 
+            for neighbor, weight in self.graph[curr_v]:
+                calc_dist = weight + table[curr_v][0]
+                if calc_dist < table[neighbor][0]:
+                    table[neighbor][0] = weight + table[curr_v][0] # update distance
+                    table[neighbor][1] = curr_v # set 'previous vertice' too
+            
+            visited.append(curr_v)
+            unvisited.remove(curr_v)
+
+        return table
 
 if __name__ == '__main__':
     print("Running test script")
 
-    graph = Graph(directed=True, weighted=False)
+    graph = Graph(directed=False, weighted=True)
 
-    graph.add_edge('A', 'B')
+    graph.add_edge('A', 'B', 6)
+    graph.add_edge('A', 'D', 1)
+    graph.add_edge('D', 'B', 2)
+    graph.add_edge('D', 'E', 1)
+    graph.add_edge('B', 'E', 2)
+    graph.add_edge('B', 'C', 5)
+    graph.add_edge('E', 'C', 5)
+    
     print(graph.graph)
-
     graph.print_graph()
-    print(graph.get_order())
 
-    print(graph.get_size())
-
-    print(graph.adjacency('B', 'A'))
-
-    print(graph.get_degree('C'))
-
-    print(graph.get_adjacents('A'))
+    print(graph.dijkstra_shortest_path('A'))
