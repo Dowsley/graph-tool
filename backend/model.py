@@ -205,6 +205,17 @@ class Graph:
         )
 
     def dijkstra_table(self, origin):
+        """ Performs dijkstra algorithm and returns a table with the result.
+
+        Args:
+            origin (str): Vertex data/key to calculate shortest distances from.
+
+        Returns:
+            dictionary: 
+                Each key will be a different vertex of the graph. The value is a list of 
+                (shortest distance to origin, previous_vertex)
+        """
+
         # STEP 0: Initialization
         visited = []
         if not self.directed:
@@ -215,9 +226,6 @@ class Graph:
                 [x[0] for x in list(chain(*self.graph.values()))]
             ))
         
-        """ Each key will be a vertex. The value is a list of 
-        (shortest distance to origin, previous_vertex)
-        """
         table = {}
         for key in unvisited:
             if key == origin:
