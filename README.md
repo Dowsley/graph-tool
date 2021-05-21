@@ -8,6 +8,7 @@
     -   [Ordem](#1.4)
     -   [Adjacência](#1.5)
     -   [Grau](#1.6)
+    -   [Algoritmo de Dijkstra](#1.7)
 2. [Backend & Frontend](#2)
     - [Backend](#2.1)
     - [Frontend](#2.2)
@@ -54,25 +55,43 @@ Número de vértices do Grafo
 > - Indegree é o número de arestas que estão entrando no vértice.
 > - Outdegree é o número de arestas que estão saindo do vértice.
 
+<a id="1.7"> </a>
+## Algoritmo de Dijkstra
+Criado pelo holandês Edsger Dijkstra em 1956. Esse algoritmo soluciona o problema do caminho mais curto num grafo direcionado ou não direcionado com arestas de peso não negativo.
+
+O algoritmo considera um conjunto `S` de menores caminhos, iniciado com um vértice inicial `V`. A cada passo do algoritmo busca-se nas adjacências dos vértices pertencentes a `S` aquele vértice com menor distância relativa a `V` e adiciona-o a `S` e, então, repetindo os passos até que todos os vértices alcançáveis por `V` estejam em `S`. Arestas que ligam vértices já pertencentes a `S` são desconsideradas
+<div>
+<img src="./assets/Dijkstra_Animation.gif" width="500" height="300"/>
+</div>
+<br></br>
+
 <a id="2"> </a>
 # Backend & Frontend
 
 <a id="2.1"> </a>
 ## Backend
 - Fizemos toda a lógica em Python, seguindo o padrão estilístico do PEP8.
-- Criamos uma classe `Graph` com os seguintes **atributos**:
+- Criamos uma classe `Graph` com os seguintes **atributos**:<br><br>
+&emsp;![](./assets/Graph.png) <br><br>
     - `directed` - Booleano que recebe `True` se o Grafo for Direcionado, e `False` se o Grafo for Não-Direcionado
     - `weighted` - Booleano que recebe `True` se o Grafo for Ponderado, e `False` se o Grafo for Não-Ponderado
-    - `graph` - Dicionário python onde será alocado os vertices e as arestas.
-- E os seguintes **métodos**:
+    - `graph` - Dicionário python onde será alocado os vertices e as arestas.<br><br>
+- E os seguintes **métodos**:<br><br>
     - `add_edge` - Adiciona uma aresta com base nos vértices de origem e destino.
+    <br><br>![](./assets/Graph.png) <br><br>
     - `print_graph` - Printa um Grafo de uma Maneira Simplificada.
+    <br><br>![](./assets/Graph.png) <br><br>
     - `get_order` - Calcula a ordem do Grafo.
+    <br><br>![](./assets/Graph.png) <br><br>
     - `get_size` -  Calcula o tamanho do Grafo.
+    <br><br>![](./assets/Graph.png) <br><br>
     - `adjacency` - Verifica se dois vértices são adjacentes ou não.
+    <br><br>![](./assets/Graph.png) <br><br>
     - `get_degree` - Calcula o grau de um dado vértice.
+    <br><br>![](./assets/Graph.png) <br><br>
     - `get_adjacents` - Retorna os vértices adjacentes de um determinado vértice.
-
+    <br><br>![](./assets/Graph.png) <br><br>
+    
 <a id="2.2"> </a>
 ## Frontend
 Feito em Node e React.js, seguindo padrão estilístico similar ao do AirBnB. A visualização de grafos é possível com uso da biblioteca react-graph-vis. Os detalhes visuais são feitos com ajuda da maravilhosa biblioteca Tailwind. É possível realizar as seguintes ações:
@@ -100,8 +119,9 @@ Feito em Node e React.js, seguindo padrão estilístico similar ao do AirBnB. A 
 |Criação do método que verifica adjacencia de 2 vértices| 00:27|
 |Criação do método que verifica o grau de um dado vértice| 00:27|
 |Criação do método que retonra a lista de vertices adjacentes| 00:15|
-|Backend utilizando Flask| 03:00|
-|Frontend utilizando ReactJS| 07:30|
-|Documentação| 01:30|
+|Criação do método que implementa o algoritmo de Dijkstra| 01:18|
+|Backend utilizando Flask| 03:30|
+|Frontend utilizando ReactJS| 09:30|
+|Documentação| 02:00|
 
-#### Total: 17 horas e 27 minutos
+#### Total: 21 horas e 30 minutos
