@@ -78,19 +78,19 @@ O algoritmo considera um conjunto `S` de menores caminhos, iniciado com um vért
     - `graph` - Dicionário python onde será alocado os vertices e as arestas.<br><br>
 - E os seguintes **métodos**:<br><br>
     - `add_edge` - Adiciona uma aresta com base nos vértices de origem e destino.
-    <br><br>![](./assets/Graph.png) <br><br>
+    <br><br>![](./assets/add_edge.png) <br><br>
     - `print_graph` - Printa um Grafo de uma Maneira Simplificada.
-    <br><br>![](./assets/Graph.png) <br><br>
+    <br><br>![](./assets/print_graph.png) <br><br>
     - `get_order` - Calcula a ordem do Grafo.
-    <br><br>![](./assets/Graph.png) <br><br>
+    <br><br>![](./assets/get_order.png) <br><br>
     - `get_size` -  Calcula o tamanho do Grafo.
-    <br><br>![](./assets/Graph.png) <br><br>
+    <br><br>![](./assets/get_size.png) <br><br>
     - `adjacency` - Verifica se dois vértices são adjacentes ou não.
-    <br><br>![](./assets/Graph.png) <br><br>
+    <br><br>![](./assets/adjacency.png) <br><br>
     - `get_degree` - Calcula o grau de um dado vértice.
-    <br><br>![](./assets/Graph.png) <br><br>
+    <br><br>![](./assets/get_degree.png) <br><br>
     - `get_adjacents` - Retorna os vértices adjacentes de um determinado vértice.
-    <br><br>![](./assets/Graph.png) <br><br>
+    <br><br>![](./assets/get_adjacents.png) <br><br>
     
 <a id="2.2"> </a>
 ## Frontend
@@ -106,22 +106,22 @@ Feito em Node e React.js, seguindo padrão estilístico similar ao do AirBnB. A 
 <a id="3"> </a>
 ## Banco de Horas
 
-|Atividade| Horas Usadas|
-|:--|--:|
-|Planejamento geral do projeto| 01:00|
-|Planejamento da representação do grafo| 00:30|
-|Criação da Classe e dos métodos iniciais| 01:00|
-|Criação do método que verifica edges existentes| 00:10|
-|Implementação do tratamento de grafos direcionados| 00:16|
-|Implementação do tratamento de grafos ponderados| 00:15|
-|Criação do método que retonra o tamanho do Grafo| 00:45|
-|Criação do método que retonra a ordem do Grafo| 00:25|
-|Criação do método que verifica adjacencia de 2 vértices| 00:27|
-|Criação do método que verifica o grau de um dado vértice| 00:27|
-|Criação do método que retonra a lista de vertices adjacentes| 00:15|
-|Criação do método que implementa o algoritmo de Dijkstra| 01:18|
-|Backend utilizando Flask| 03:30|
-|Frontend utilizando ReactJS| 09:30|
-|Documentação| 02:00|
+|Atividade| Horas Usadas| Responsável|
+|:--|--:|--:|
+|Planejamento geral do projeto| 01:00| Gabriel e João|
+|Planejamento da representação do grafo| 00:30| Gabriel e João|
+|Criação da Classe e dos métodos iniciais| 01:00| Gabriel e João|
+|Criação do método que verifica edges existentes| 00:10| Gabriel e João|
+|Implementação do tratamento de grafos direcionados| 00:16| Gabriel e João|
+|Implementação do tratamento de grafos ponderados| 00:15| Gabriel e João|
+|Criação do método que retonra o tamanho do Grafo| 00:45| Gabriel e João|
+|Criação do método que retonra a ordem do Grafo| 00:25| Gabriel e João|
+|Criação do método que verifica adjacencia de 2 vértices| 00:27| Gabriel e João|
+|Criação do método que verifica o grau de um dado vértice| 00:27| Gabriel e João|
+|Criação do método que retonra a lista de vertices adjacentes| 00:15| Gabriel e João|
+|Criação do método que implementa o algoritmo de Dijkstra| 01:18| João|
+|Backend utilizando Flask| 03:30| Gabriel|
+|Frontend utilizando ReactJS| 10:30| João|
+|Documentação| 02:00| Gabriel|
 
-#### Total: 21 horas e 30 minutos
+#### Total: 22 horas e 30 minutos
