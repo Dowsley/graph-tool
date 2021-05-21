@@ -8,6 +8,7 @@
     -   [Ordem](#1.4)
     -   [Adjacência](#1.5)
     -   [Grau](#1.6)
+    -   [Algoritmo de Dijkstra](#1.7)
 2. [Backend & Frontend](#2)
     - [Backend](#2.1)
     - [Frontend](#2.2)
@@ -54,6 +55,16 @@ Número de vértices do Grafo
 > - Indegree é o número de arestas que estão entrando no vértice.
 > - Outdegree é o número de arestas que estão saindo do vértice.
 
+<a id="1.6"> </a>
+## Algoritmo de Dijkstra
+Criado pelo holandês Edsger Dijkstra em 1956. Esse algoritmo soluciona o problema do caminho mais curto num grafo direcionado ou não direcionado com arestas de peso não negativo.
+
+O algoritmo considera um conjunto `S` de menores caminhos, iniciado com um vértice inicial `V`. A cada passo do algoritmo busca-se nas adjacências dos vértices pertencentes a `S` aquele vértice com menor distância relativa a `V` e adiciona-o a `S` e, então, repetindo os passos até que todos os vértices alcançáveis por `V` estejam em `S`. Arestas que ligam vértices já pertencentes a `S` são desconsideradas
+<div>
+<img src="./assets/Dijkstra_Animation.gif" width="500" height="300"/>
+</div>
+<br></br>
+
 <a id="2"> </a>
 # Backend & Frontend
 
@@ -61,16 +72,24 @@ Número de vértices do Grafo
 ## Backend
 - Fizemos toda a lógica em Python, seguindo o padrão estilístico do PEP8.
 - Criamos uma classe `Graph` com os seguintes **atributos**:
+![](./assets/Graph.png) <br><br>
     - `directed` - Booleano que recebe `True` se o Grafo for Direcionado, e `False` se o Grafo for Não-Direcionado
     - `weighted` - Booleano que recebe `True` se o Grafo for Ponderado, e `False` se o Grafo for Não-Ponderado
     - `graph` - Dicionário python onde será alocado os vertices e as arestas.
 - E os seguintes **métodos**:
+    ![](./assets/Graph.png) <br><br>
     - `add_edge` - Adiciona uma aresta com base nos vértices de origem e destino.
+    ![](./assets/Graph.png) <br><br>
     - `print_graph` - Printa um Grafo de uma Maneira Simplificada.
+    ![](./assets/Graph.png) <br><br>
     - `get_order` - Calcula a ordem do Grafo.
+    ![](./assets/Graph.png) <br><br>
     - `get_size` -  Calcula o tamanho do Grafo.
+    ![](./assets/Graph.png) <br><br>
     - `adjacency` - Verifica se dois vértices são adjacentes ou não.
+    ![](./assets/Graph.png) <br><br>
     - `get_degree` - Calcula o grau de um dado vértice.
+    ![](./assets/Graph.png) <br><br>
     - `get_adjacents` - Retorna os vértices adjacentes de um determinado vértice.
 
 <a id="2.2"> </a>
