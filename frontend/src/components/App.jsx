@@ -9,6 +9,9 @@ const App = () => {
 
   const [srcAdjInput, setSrcAdjInput] = useState('')
   const [destAdjInput, setDestAdjInput] = useState('')
+
+  const [srcDJInput, setSrcDJInput] = useState('')
+  const [destDJInput, setDestDJInput] = useState('')
   
   const [weightedInput, setWeightedInput] = useState(false)
   const [directedInput, setDirectedInput] = useState(false)
@@ -178,6 +181,7 @@ const App = () => {
                       adjacency: [],
                       get_degree: false,
                       get_adjacents: false,
+                      dijkstra_table: false,
                     })
                   }}
                 >
@@ -222,6 +226,7 @@ const App = () => {
                         adjacency: [srcAdjInput, destAdjInput],
                         get_degree: null,
                         get_adjacents: null,
+                        dijkstra_table: false,
                       },
                     }).then((res) => {
                       const adjacency = res.data.adjacency
@@ -260,17 +265,74 @@ const App = () => {
               </div>
             </div>
 
+            <div className="mx-2 rounded-lg flex items-center bg-gray-200 mt-5 py-2 px-6 space-x-3 text-gray-600 border-r-4 border-white hover:bg-gray-200 hover:text-gray-700 hover:border-gray-700">
+              <div className="flex items-center space-x-1" >
+                <button
+                  className="flex bg-primary opacity-60 hover:opacity-100 rounded-full"
+                  onClick={() => {
+                    axios.post('http://127.0.0.1:5000', {
+                      state: graphStructure,
+                      changes: {
+                        new_edges: null,
+                        adjacency: null,
+                        get_degree: null,
+                        get_adjacents: null,
+                        dijkstra_table: srcDJInput,
+                      },
+                    }).then((res) => {
+                      let dijkstraString = ''
+                      
+                      if (res.data.dijkstra_table[destDJInput]) {
+                        // Requisito 3
+                        dijkstraString += `O menor custo entre o vértice ${srcDJInput} e o vértice ${destDJInput} é de ${res.data.dijkstra_table[destDJInput][0]}\n`
+                      
+                        // Requisito 4
+                        dijkstraString += '\n'
+                        const path = [destDJInput]
+                        let next = destDJInput
+                        while (next !== srcDJInput) {
+                          next = res.data.dijkstra_table[next][1]
+                          path.push(next)
+                        }
+                        dijkstraString += `O caminho de menor custo entre o vértice ${srcDJInput} e o vértice ${destDJInput} é: ${path.reverse().join(' ->')}\n`
+                      }
+                      else {
+                        dijkstraString += `NÃO TEM!!!!!!!\n`
+                      }
+
+                      alert(dijkstraString)
+                    })
+                  }}
+                >
+                  <span className="material-icons" style={{ fontSize: '20px' }}>
+                    close_fullscreen
+                  </span>
+                </button>
+              </div>
+
+              <div className="space-y-1">
+                <span className="font-medium">
+                  Menor caminho
+                </span>
+                <input 
+                  placeholder="Source"
+                  value={srcDJInput}
+                  onChange={(e) => setSrcDJInput(e.target.value)}
+                />
+                <input
+                  placeholder="Destiny"
+                  value={destDJInput}
+                  onChange={(e) => setDestDJInput(e.target.value)}
+                />
+                <div className="bg-green-300 px-2 py-2 rounded-lg">
+                  {message}
+                </div>
+              </div>
+
+              
+            </div>
+
           </nav>
-
-          <div className="absolute bottom-0 my-10">
-            <a className="flex items-center py-2 px-8 text-gray-500 hover:text-gray-600" href="https://github.com/Dowsley/graph-tool">
-              <svg className="h-5 w-5" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path fillRule="evenodd" clipRule="evenodd" d="M18 10C18 14.4183 14.4183 18 10 18C5.58172 18 2 14.4183 2 10C2 5.58172 5.58172 2 10 2C14.4183 2 18 5.58172 18 10ZM10 7C9.63113 7 9.3076 7.19922 9.13318 7.50073C8.85664 7.97879 8.24491 8.14215 7.76685 7.86561C7.28879 7.58906 7.12543 6.97733 7.40197 6.49927C7.91918 5.60518 8.88833 5 10 5C11.6569 5 13 6.34315 13 8C13 9.30622 12.1652 10.4175 11 10.8293V11C11 11.5523 10.5523 12 10 12C9.44773 12 9.00001 11.5523 9.00001 11V10C9.00001 9.44772 9.44773 9 10 9C10.5523 9 11 8.55228 11 8C11 7.44772 10.5523 7 10 7ZM10 15C10.5523 15 11 14.5523 11 14C11 13.4477 10.5523 13 10 13C9.44772 13 9 13.4477 9 14C9 14.5523 9.44772 15 10 15Z" fill="currentColor" />
-              </svg>
-
-              <span className="mx-4 font-medium">Support</span>
-            </a>
-          </div>
         </div>
 
           <div style={{
@@ -302,6 +364,7 @@ const App = () => {
                       adjacency: null,
                       get_degree: vertex,
                       get_adjacents: vertex,
+                      dijkstra_table: vertex,
                     },
                   }).then((res) => {
                     const degree = res.data.degree
@@ -309,6 +372,8 @@ const App = () => {
           
                     let degreeString = ''
                     let adjacentString = ''
+                    let dijkstraString = ''
+
                     if (directedInput) {
                       degreeString += `O grau ingoing do vértice ${vertex} é: ${degree[0]}\n`
                       degreeString += `O grau outgoing do vértice ${vertex} é: ${degree[1]}\n`
@@ -319,8 +384,28 @@ const App = () => {
                       degreeString += `O grau do vértice ${vertex} é: ${degree[0]}\n`
                       adjacentString += `Os adjacentes deste vértice são: ${adjacents[0].toString()}\n`
                     }
+                    
+                    // Requisito 1
+                    dijkstraString += '\n'
+                    Object.entries(res.data.dijkstra_table).forEach(([k, v]) => {
+                      dijkstraString += `O menor custo entre o vértice ${vertex} e o vértice ${k} é de ${v[0]}\n`
+                    })
+                    
+                    // Requisito 2
+                    dijkstraString += '\n'
+                    const entries = Object.entries(res.data.dijkstra_table).filter(([goal]) => goal !== vertex)
+                    entries.forEach(([goal, v]) => {
+                      const path = [goal]
+
+                      let next = goal
+                      while (next !== vertex) {
+                        next = res.data.dijkstra_table[next][1]
+                        path.push(next)
+                      }
+                      dijkstraString += `O caminho de menor custo entre o vértice ${vertex} e o vértice ${goal} é: ${path.reverse().join(' ->')}\n`
+                    })
           
-                    alert(degreeString + adjacentString)
+                    alert(degreeString + adjacentString + dijkstraString)
                   })
                 }
               }}

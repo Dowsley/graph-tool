@@ -204,16 +204,17 @@ class Graph:
             None
         )
 
-    def dijkstra_shortest_path(self, origin):
+    def dijkstra_table(self, origin):
         # STEP 0: Initialization
-
-        # Doesnt work for now
-        if self.directed:
-            return None
-        
         visited = []
-        unvisited = list(self.graph.keys())
-
+        if not self.directed:
+            unvisited = list(self.graph.keys())
+        else:
+            unvisited = list(dict.fromkeys(
+                list(self.graph.keys()) +
+                [x[0] for x in list(chain(*self.graph.values()))]
+            ))
+        
         """ Each key will be a vertex. The value is a list of 
         (shortest distance to origin, previous_vertex)
         """
@@ -242,31 +243,48 @@ class Graph:
             # neighbor from the start vertex. For each neighbor, if the calculated distance
             # is less than its known distance, update the neighbor's shortest distance 
             # and previous vertice. After that, set current vertex as visited. 
-            for neighbor, weight in self.graph[curr_v]:
-                calc_dist = weight + table[curr_v][0]
-                if calc_dist < table[neighbor][0]:
-                    table[neighbor][0] = weight + table[curr_v][0] # update distance
-                    table[neighbor][1] = curr_v # set 'previous vertice' too
+            if not self.directed:
+                for neighbor, weight in self.graph[curr_v]:
+                    calc_dist = weight + table[curr_v][0]
+                    if calc_dist < table[neighbor][0]:
+                        table[neighbor][0] = weight + table[curr_v][0] # update distance
+                        table[neighbor][1] = curr_v # set 'previous vertice' too
+            else:
+                try:
+                    connections = self.graph[curr_v]
+                except:
+                    visited.append(curr_v)
+                    unvisited.remove(curr_v)
+                    continue
+
+                for neighbor, weight in connections:
+                    calc_dist = weight + table[curr_v][0]
+                    if calc_dist < table[neighbor][0]:
+                        table[neighbor][0] = weight + table[curr_v][0] # update distance
+                        table[neighbor][1] = curr_v # set 'previous vertice' too
             
             visited.append(curr_v)
             unvisited.remove(curr_v)
-
-        return table
+        
+        filtered_table = {}
+        for k, v in table.items():
+            if v[0] != float('inf'):
+                filtered_table[k] = v
+        return filtered_table
 
 if __name__ == '__main__':
     print("Running test script")
 
-    graph = Graph(directed=False, weighted=True)
+    graph = Graph(directed=True, weighted=True)
 
-    graph.add_edge('A', 'B', 6)
+    graph.add_edge('A', 'B', 5)
     graph.add_edge('A', 'D', 1)
-    graph.add_edge('D', 'B', 2)
-    graph.add_edge('D', 'E', 1)
-    graph.add_edge('B', 'E', 2)
-    graph.add_edge('B', 'C', 5)
-    graph.add_edge('E', 'C', 5)
+    graph.add_edge('B', 'C', 1)
+    graph.add_edge('A', 'C', 8)
+    graph.add_edge('D', 'B', 1)
     
     print(graph.graph)
     graph.print_graph()
 
-    print(graph.dijkstra_shortest_path('A'))
+    print(graph.get_degree('C'))
+    print(graph.dijkstra_table('C'))

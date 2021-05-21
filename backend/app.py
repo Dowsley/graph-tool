@@ -38,6 +38,14 @@ def handle_graph():
         temp = data['changes']['get_adjacents']
         res['adjacents'] = graph.get_adjacents(temp)
 
+    print(data)
+    if data['changes']['dijkstra_table']:
+        res["dijkstra_table"] = graph.dijkstra_table(
+            data['changes']['dijkstra_table']
+        )
+        print(data['changes']['dijkstra_table'])
+        print(res['dijkstra_table'])
+
     res["size"] = graph.get_size()
     res["order"] = graph.get_order()
     
