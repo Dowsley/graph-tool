@@ -290,16 +290,20 @@ const App = () => {
                         dijkstraString += '\n'
                         const path = [destDJInput]
                         let next = destDJInput
-                        while (next !== srcDJInput) {
-                          next = res.data.dijkstra_table[next][1]
-                          path.push(next)
+                        if (res.data.dijkstra_table[destDJInput][0] === 'infinity') {
+                          dijkstraString += `O caminho de menor custo entre o vértice ${srcDJInput} e o vértice ${destDJInput} é: INFINITO\n`
+                        } else {
+                          while (next !== srcDJInput) {
+                            next = res.data.dijkstra_table[next][1]
+                            path.push(next)
+                          }
+                          dijkstraString += `O caminho de menor custo entre o vértice ${srcDJInput} e o vértice ${destDJInput} é: ${path.reverse().join(' ->')}\n` 
                         }
-                        dijkstraString += `O caminho de menor custo entre o vértice ${srcDJInput} e o vértice ${destDJInput} é: ${path.reverse().join(' ->')}\n`
                       }
                       else {
                         dijkstraString += `NÃO TEM!!!!!!!\n`
                       }
-
+                      
                       alert(dijkstraString)
                     })
                   }}
@@ -396,13 +400,18 @@ const App = () => {
                     const entries = Object.entries(res.data.dijkstra_table).filter(([goal]) => goal !== vertex)
                     entries.forEach(([goal, v]) => {
                       const path = [goal]
-
+                      
                       let next = goal
-                      while (next !== vertex) {
-                        next = res.data.dijkstra_table[next][1]
-                        path.push(next)
+                      if (v[0] === 'infinity') {
+                        dijkstraString += `O caminho de menor custo entre o vértice ${vertex} e o vértice ${goal} não existe, pois é infinito.!\n`
+                      } else {
+                        while (next !== vertex) {
+                          next = res.data.dijkstra_table[next][1]
+                          path.push(next)
+                        }
+                        dijkstraString += `O caminho de menor custo entre o vértice ${vertex} e o vértice ${goal} é: ${path.reverse().join(' ->')}\n`
                       }
-                      dijkstraString += `O caminho de menor custo entre o vértice ${vertex} e o vértice ${goal} é: ${path.reverse().join(' ->')}\n`
+
                     })
           
                     alert(degreeString + adjacentString + dijkstraString)

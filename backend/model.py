@@ -274,11 +274,11 @@ class Graph:
             visited.append(curr_v)
             unvisited.remove(curr_v)
         
-        filtered_table = {}
         for k, v in table.items():
-            if v[0] != float('inf'):
-                filtered_table[k] = v
-        return filtered_table
+            if v[0] == float('inf'):
+                table[k][0] = 'infinity'
+        
+        return table
 
 if __name__ == '__main__':
     print("Running test script")
